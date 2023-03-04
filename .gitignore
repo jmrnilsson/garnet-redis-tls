@@ -5,6 +5,9 @@
 **.cnf
 **.csr
 **.dh
+**/generate.sh
 **/node_modules
 **/.venv
 **.pyc
+**/__pycache__
+**/gen-test-certs.sh
