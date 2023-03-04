@@ -1,0 +1,10 @@
+**.crt
+**.pem
+**.key
+**.ini
+**.cnf
+**.csr
+**.dh
+**/node_modules
+**/.venv
+**.pyc
