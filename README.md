@@ -58,10 +58,12 @@ Based on integration tests. Still hoping things will improve with some tweaking 
 | `redis (Python)` | 4.5.1 | DOCS | ✅ OK |
 | `redis (Python)` | 4.5.1 | AZCA | ⛔ Self-sign failure |
 
-Some common errors
+### Common error messages
 - Hostname/IP does not match certificate's altnames: Host: localhost. is not cert's CN: Generic-cert
 - 'Host: localhost. is not cert's CN: Generic-cert', host: 'localhost'.
 - Certificate verify failed: self signed certificate (_ssl.c:1129).
+- DEPTH_ZERO_SELF_SIGNED_CERT
+- Error: self-signed certificate
 
 ## TL;DR
 Out of the tested libraries it looks like `redis (Python)` is the only option that verifies a self-signed certificates.
