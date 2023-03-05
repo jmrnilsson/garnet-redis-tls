@@ -52,7 +52,7 @@ Based on integration tests. Still hoping things will improve with some tweaking 
 | Client | Version | Signed per | Status |
 |------|------|------|------|
 | `redis (node_redis)` | 4.6.5 | DOCS | ⛔ Invalid CN |
-| `redis (node_redis)` | 4.6.5 | AZCA  | ⛔ DEPTH_ZERO_SELF_SIGNED_CERT |
+| `redis (node_redis)` | 4.6.5 | AZCA  | ⛔  Self-sign failure (depth zero) |
 | `ioredis` | 5.3.1 | DOCS | ⛔ Invalid CN |
 | `ioredis` | 5.3.1 | AZCA   | ⛔ Self-sign failure |
 | `redis (Python)` | 4.5.1 | DOCS | ✅ OK |
