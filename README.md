@@ -70,9 +70,9 @@ Out of the tested libraries it looks like `redis (Python)` is the only option th
 The other libraries can be configured to accept them, but currently only by disabling certificate verification all
 together.
 
-Going deeper, there is a option in Nodejs to disable reject unauthorized TLS. It can in some cases be set to `false` via
-a constructor argument. Alternatively it can be set through an environment variable which disables all certificate
+Going deeper, there is an option in Nodejs to disable reject unauthorized TLS. It can in some cases be set to `false`
+via a constructor argument. Alternatively it can be set through an environment variable which disables all certificate
 verification for Nodejs rather than the Redis client.
 
-Some integrations will not provide log information. To drill-down you may have to run `node .\debug.js` to capture log
+Some integrations provide limited log information. To drill-down you may have to run `node .\debug.js` to capture log
 output.
