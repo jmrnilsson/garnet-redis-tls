@@ -4,7 +4,8 @@ const debuggable = require("./js/rpc");
 
 async function debug() {
   // const response = await debuggable.ioredisSupportsAzureDocumentedSelfSignedCa();
-  const response = await debuggable.redisSupportsAzureDocumentedSelfSignedCa();
+  const response = await debuggable.ioredisSupportsDocumentedSelfSignedCertificates();
+  // const response = await debuggable.redisSupportsAzureDocumentedSelfSignedCa();
   // const response = await debuggable.ioredisSupportsDocumentedSelfSignedCertificates();
   console.log(response);
 }
