@@ -16,8 +16,8 @@ from where TLS probably reintegrated from once. And that team had a funny story 
 Unfortunately, there are plenty invalid documentation floating around when it comes to client use. And there're troves
 of unanswered questions asked in StackOverflow.com when it comes to redis and TLS. 
 
-In conclusion, finding a client library can run self-signed certificates reliably isn't exactly easy. I reckon Redis
-can be put as a sidecar with UNIX sockets. Another option, memcached, only has TLS as an
+In conclusion, finding a client library that can run self-signed certificates reliably isn't exactly easy. I reckon 
+Redis can be put as a sidecar with UNIX sockets. Another option, memcached, only has TLS as an
 [experimental feature](https://github.com/memcached/memcached/wiki/TLS).
 
 ## Requirements
