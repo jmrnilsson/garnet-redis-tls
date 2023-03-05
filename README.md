@@ -66,7 +66,7 @@ Based on integration tests. Still hoping things will improve with some tweaking 
 - Error: self-signed certificate
 
 ## TL;DR
-Out of the tested libraries it looks like `redis (Python)` is the only option that verifies a self-signed certificates.
+Out of the tested libraries it looks like `redis (Python)` is the only option that verifies a self-signed certificate.
 The other libraries can be configured to accept them, but currently only by disabling certificate verification all
 together.
 
