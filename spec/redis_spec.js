@@ -1,9 +1,34 @@
+const path = require('path');
 const rpc = require('../js/rpc');
+const reporters = require('jasmine-reporters');
+
+// var terminalReporter = new reporters.TerminalReporter({
+//   verbosity: 3,
+//   color: true,
+//   showStack: true
+// });
+
+// var junitReporter = new reporters.JUnitXmlReporter({
+//   savePath: path.join(__dirname, "..", "reports"),
+//   filePrefix: "nodejs",
+//   consolidateAll: true
+// });
+
+var tapReporter = new reporters.TapReporter();
+
+// jasmine.getEnv().addReporter(junitReporter);
+// jasmine.getEnv().addReporter(terminalReporter);
+jasmine.getEnv().addReporter(tapReporter);
 
 describe("redis (node_redis)", function () {
   it("should support the documented self-signed certificates", async function () {
     const response = await rpc.redisSupportsDocumentedSelfSignedCertificates();
     expect(response).toEqual('fighters');
+  });
+
+  it("supports ECDSA", async function () {
+    const response = await rpc.redisSupportsEcdsa();
+    expect(response).toEqual('ecdsa');
   });
 
   it("should support the azure documented self-signed ca", async function () {
@@ -56,4 +81,10 @@ describe("ioredis", function () {
     const response = await rpc.ioredisSupportsAzureDocumentedSelfSignedCa();
     expect(response).toEqual('doing');
   });
+
+  it("supports ECDSA", async function () {
+    const response = await rpc.ioredisSupportsEcdsa();
+    expect(response).toEqual('ioEcdsa');
+  });
+
 });

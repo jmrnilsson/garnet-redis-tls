@@ -26,5 +26,6 @@ if (!$dockerProcess){
   Exit-PSSession;
 }
 
-.venv\Scripts\python.exe -m unittest
+# .venv\Scripts\python.exe -m unittest
+.venv\Scripts\python.exe -m tap
 npm test

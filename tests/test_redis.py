@@ -30,7 +30,7 @@ class RedisTests(unittest.TestCase):
     self.assertEquals(value, "bar")
 
   def test_official_documentation_self_signed(self):
-    r = Redis.from_url( url='rediss://:@localhost:7002/0',
+    r = Redis.from_url( url='rediss://:@localhost:7020/0',
         # password='password',
         ssl_cert_reqs='required',
         ssl_keyfile='./redis/tests/tls/redis.key',
@@ -43,8 +43,22 @@ class RedisTests(unittest.TestCase):
     print(value)
     self.assertEqual(value, b"boo")
 
+  def test_ecdsa(self):
+    r = Redis.from_url( url='rediss://:@localhost:7030/0',
+        password='vkIjyCjWsmepTCkaynqHwqDkqMVuATgvyQCDJBKNvhkwMoNykqkOzyYKCKYRqYtZYFBQjOstRoZlEKEMeiOQwDibhULpylxnuQsVhjNLtbkxeUfsGlwwGRjQaslESnVU',
+        ssl_cert_reqs='required',
+        ssl_keyfile='./tls-ecdsa/tls/redis.key',
+        ssl_certfile='./tls-ecdsa/tls/redis.crt',
+        ssl_ca_certs='./tls-ecdsa/tls/ca.crt'
+    )
+
+    r.set('foo', 'pyEcdsa')
+    value = r.get('foo')
+    print(value)
+    self.assertEqual(value, b"pyEcdsa")
+
   def test_official_documentation_self_signed_no_certs(self):
-    r = Redis.from_url( url='rediss://:@localhost:7002/0',
+    r = Redis.from_url( url='rediss://:@localhost:7020/0',
         # password='password',
         ssl_cert_reqs='required'
     )

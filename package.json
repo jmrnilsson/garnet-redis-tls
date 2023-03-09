@@ -21,6 +21,7 @@
     "redis": "^4.6.5"
   },
   "devDependencies": {
-    "jasmine": "^4.5.0"
+    "jasmine": "^4.5.0",
+    "jasmine-reporters": "^2.5.2"
   }
 }

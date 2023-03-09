@@ -6,13 +6,35 @@ services:
     ports:
       - '7000:6379'
     container_name: redis-az-ca
-  redis-tls:
-    image: redis:7.0.9-bullseye
+  redis-rsa:
+    # image: redis:7.0.9-bullseye
     build: ./redis
     restart: always
     ports:
-      - '7002:6379'
-    container_name: redis-tls
+      - '7020:6379'
+    container_name: redis-rsa
+  redis-ecdsa:
+    image: redis:7.0.9-bullseye
+    command: [
+      "bash", "-c",
+      'redis-server
+       /usr/local/etc/redis/redis.conf
+       --requirepass "$REDIS_PASSWORD"
+      '
+    ]
+    restart: always
+    ports:
+      - '7030:6379'
+    volumes:
+    - type: bind
+      source: ./tls-ecdsa/tls
+      target: /tls
+    - type: bind
+      source: ./tls-ecdsa/redis.conf
+      target: /usr/local/etc/redis/redis.conf
+    container_name: redis-ecdsa
+
+
     # volumes:
     #   - ./redis/tests/tls/redis.crt /usr/local/etc/redis/redis.crt
     #   - ./redis/tests/tls/redis.key /usr/local/etc/redis/redis.key

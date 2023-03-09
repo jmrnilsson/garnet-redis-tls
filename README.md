@@ -45,17 +45,22 @@ This will run both Jasmine tests for redis (previously node_redis), ioredis and 
 ### Used abbreviations
 - **DOCS**: Certificates self-signed per official Redis documentation.
 - **AZCA**: Certificates self-signed per Microsoft Azure custom root CA example.
+- **RSA**: RSA cipher.
+- **RSA**: RSA cipher.
 
 ### Test runs
 Based on integration tests. Still hoping things will improve with some tweaking of certificate generation.
 
 | Client | Version | Signed per | Status |
 |------|------|------|------|
-| `redis (node_redis)` | 4.6.5 | DOCS | ~~⛔ Invalid CN~~ |
+| `redis (node_redis)` | 4.6.5 | RSA | ✅ OK |
+| `redis (node_redis)` | 4.6.5 | ECDSA | ✅ OK |
 | `redis (node_redis)` | 4.6.5 | AZCA  | ⛔  Self-sign failure (depth zero) |
-| `ioredis` | 5.3.1 | DOCS | ~~⛔ Invalid CN~~ |
+| `ioredis` | 5.3.1 | RSA | ✅ OK |
+| `ioredis` | 5.3.1 | ECDSA | ✅ OK |
 | `ioredis` | 5.3.1 | AZCA   | ⛔ Self-sign failure |
-| `redis (Python)` | 4.5.1 | DOCS | ✅ OK |
+| `redis (Python)` | 4.5.1 | RSA | ✅ OK |
+| `redis (Python)` | 4.5.1 | ECDSA | ✅ OK |
 | `redis (Python)` | 4.5.1 | AZCA | ⛔ Self-sign failure |
 
 ### Common error messages
@@ -76,3 +81,24 @@ verification for Nodejs rather than the Redis client.
 
 Some integrations provide limited log information. To drill-down you may have to run `node .\debug.js` to capture log
 output.
+
+### TAP
+
+```tap
+TAP version 13
+not ok 1 test_azure_recommended_self_signed_ca (tests.test_redis.RedisTests)
+not ok 2 test_azure_recommended_self_signed_ca_no_certs (tests.test_redis.RedisTests)
+ok 3 test_ecdsa (tests.test_redis.RedisTests)
+ok 4 test_official_documentation_self_signed (tests.test_redis.RedisTests)
+not ok 5 test_official_documentation_self_signed_no_certs (tests.test_redis.RedisTests)
+ok 1 - ioredis : should support the documented self-signed certificates
+not ok 2 - ioredis : should support the azure documented self-signed ca
+ok 3 - ioredis : supports ECDSA
+ok 4 - redis (node_redis) : supports ECDSA
+not ok 5 - redis (node_redis) : should support the azure documented self-signed ca
+ok 6 - redis (node_redis) : should support the documented self-signed certificates
+ok 7 - redis (node_redis) : should support the azure documented self-signed ca with reject unauthorized false argument
+ok 8 - redis (node_redis) : should support the documented self-signed certificates with reject unauthorized false argument
+ok 9 - env : should support the documented self-signed certificates with reject unauthorized zero env
+ok 10 - env : should support the azure documented self-signed ca with reject unauthorized zero env
+```
