@@ -43,10 +43,9 @@ This will run both Jasmine tests for redis (previously node_redis), ioredis and 
 
 ## Outcomes
 ### Used abbreviations
-- **DOCS**: Certificates self-signed per official Redis documentation.
-- **AZCA**: Certificates self-signed per Microsoft Azure custom root CA example.
-- **RSA**: RSA cipher.
-- **RSA**: RSA cipher.
+- **RSA**: RSA algorithm.
+- **ECDSA**: Elliptic Curve algorithm.
+- **AZCA**: Certificates self-signed per Microsoft Api Gateway custom root CA example.
 
 ### Test runs
 Based on integration tests. Still hoping things will improve with some tweaking of certificate generation.
