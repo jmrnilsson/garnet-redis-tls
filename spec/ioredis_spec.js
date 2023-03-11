@@ -2,7 +2,7 @@ const _ = require('./setup.js');
 const rpc = require('../js/rpc');
 
 describe("ioredis", function () {
-  it("RSA", async function () {
+  it("RSA : CN", async function () {
     const response = await rpc.ioredisSupportsDocumentedSelfSignedCertificates();
     expect(response).toEqual('goo');
   });
@@ -12,7 +12,7 @@ describe("ioredis", function () {
     expect(response).toEqual('doing');
   });
 
-  it("ECDSA", async function () {
+  it("ECDSA : CN", async function () {
     const response = await rpc.ioredisSupportsEcdsa();
     expect(response).toEqual('ioEcdsa');
   });
