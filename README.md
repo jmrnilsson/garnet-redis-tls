@@ -1,11 +1,13 @@
 # A dive into client support of Redis with self-signed certificates
 
 ## Description
+
 A probe into self-signed certificate support for a few Redis clients: `ioredis`, `redis (node_redis)` and `redis (Python)`.
 This is useful when Redis is used behind a firewall e.g. Kubernetes but without a service mesh, like
 [Istio](https://istio.io/latest/about/service-mesh/) or [Linkerd](https://linkerd.io/), for mTLS.
 
 ## Background 
+
 I don't know exactly what's going on here. But TLS support for redis doesn't appear to be a a priority. There is [this
 post](http://antirez.com/news/96) from the author; then a [follow-up](http://antirez.com/news/118). There are some
 pretty decent looking [performance measurements](https://github.com/redis/redis/issues/7595). There's the note about
@@ -21,6 +23,7 @@ Redis can be put as a sidecar with UNIX sockets. Another option, memcached, only
 [experimental feature](https://github.com/memcached/memcached/wiki/TLS).
 
 ## Requirements
+
 - Windows 10
 - Python 3.10+
 - Node v.18 LTS
@@ -28,6 +31,7 @@ Redis can be put as a sidecar with UNIX sockets. Another option, memcached, only
 - WSL2
 
 ## Getting started
+
 Open WSL terminal and run:
 
 ```zsh
@@ -35,6 +39,7 @@ sh ./setup.sh
 ```
 
 ## Running tests
+
 This will run both Jasmine tests for redis (previously node_redis), ioredis and redis (Python). In PowerShell run:
 
 ```pwsh
@@ -42,13 +47,15 @@ This will run both Jasmine tests for redis (previously node_redis), ioredis and 
 ```
 
 ## Outcomes
+
 ### Used abbreviations
-- **DOCS**: Certificates self-signed per official Redis documentation.
-- **AZCA**: Certificates self-signed per Microsoft Azure custom root CA example.
-- **RSA**: RSA cipher.
-- **RSA**: RSA cipher.
+
+- **RSA**: Rivest–Shamir–Adleman algorithm (anno 1994) with Common Name.
+- **ECDSA**: Elliptic Curve algorithm with Common Name.
+- **AZCA**: Elliptic Curve algorithm with AltName scheme via Distinguished Name per Microsoft Api Gateway custom root CA example.
 
 ### Test runs
+
 Based on integration tests. Still hoping things will improve with some tweaking of certificate generation.
 
 | Client | Version | Signed per | Status |
@@ -64,6 +71,7 @@ Based on integration tests. Still hoping things will improve with some tweaking 
 | `redis (Python)` | 4.5.1 | AZCA | ⛔ Self-sign failure |
 
 ### Common error messages
+
 - Hostname/IP does not match certificate's altnames: Host: localhost. is not cert's CN: Generic-cert
 - 'Host: localhost. is not cert's CN: Generic-cert', host: 'localhost'.
 - Certificate verify failed: self signed certificate (_ssl.c:1129).
@@ -71,16 +79,10 @@ Based on integration tests. Still hoping things will improve with some tweaking 
 - Error: self-signed certificate
 
 ## TL;DR
-Out of the tested libraries it looks like `redis (Python)` is the only option that verifies a self-signed certificate.
-The other libraries can be configured to accept them, but currently only by disabling certificate verification all
-together.
 
-Going deeper, there is an option in Nodejs to disable reject unauthorized TLS. It can in some cases be set to `false`
-via a constructor argument. Alternatively it can be set through an environment variable which disables all certificate
-verification for Nodejs rather than the Redis client.
+Out of the tested libraries it looks like `redis (Python)` verifies a self-signed certificate matching Common Name against DNS-record. `ioredis` and `redis (node_redis)` both require Common Name to match. All clients support RSA and ECDSA key algorithm. None of them seem accept AltName schemes via Distinguished Name.
 
-Some integrations provide limited log information. To drill-down you may have to run `node .\debug.js` to capture log
-output.
+Going deeper `redis (node_redis)` client may avoid rejection of unauthorized TLS similar to what can be accomplished via environment variable `NODE_TLS_REJECT_UNAUTHORIZED='0'`. Due retry configuration `ioredis` may require debugging to discover TLS-error given, it does however also appear some information in stardard error.
 
 ### TAP
 
