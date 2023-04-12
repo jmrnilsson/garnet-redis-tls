@@ -1,24 +1,29 @@
 const redis = require('redis');
 const Redis = require('ioredis');
-const { hasUncaughtExceptionCaptureCallback } = require('process');
-// const fs = require('fs');
 const fs = require('fs').promises;
 
-const rsa = [
+const _RSA = [
   7020,
   './redis/tests/tls/redis.key',
   './redis/tests/tls/redis.crt',
   './redis/tests/tls/ca.crt'
 ]
 
-const ecdsa = [
+const _ECDSA = [
   7030,
   './tls-ecdsa/tls/redis.key',
   './tls-ecdsa/tls/redis.crt',
   './tls-ecdsa/tls/ca.crt'
 ]
 
-const az_ca_certificates = [
+const _ECDSA_SAN = [
+  7040,
+  './tls-ecdsa-san/tls/redis.key',
+  './tls-ecdsa-san/tls/redis.crt',
+  './tls-ecdsa-san/tls/ca.crt'
+]
+
+const _CUSTOM_ZERO_DEPTH_CA = [
   7000,
   './redis-az-ca/az-tls/redis.key',
   './redis-az-ca/az-tls/redis.crt',
@@ -84,21 +89,21 @@ async function clientFactory(module, certificates, format='ascii', password=null
 }
 
 async function redisSupportsDocumentedSelfSignedCertificates() {
-  const client = await clientFactory("redis", rsa);
+  const client = await clientFactory("redis", _RSA);
   await client.connect();
   await client.set('foo', 'fighters');
   return await client.get('foo');
 }
 
 async function redisSupportsAzureDocumentedSelfSignedCa() {
-  const client = await clientFactory("redis", az_ca_certificates);
+  const client = await clientFactory("redis", _CUSTOM_ZERO_DEPTH_CA);
   await client.connect();
   await client.set('foo', 'ram');
   return await client.get('foo');
 }
 
 async function redisSupportsUnauthorizedDocumentedSelfSignedCertificates() {
-  noCertificates = [rsa[0], null, null, null]
+  noCertificates = [_RSA[0], null, null, null]
   const client = await clientFactory("redis-unauthorized", noCertificates);
   await client.connect();
   await client.set('foo', 'fighters');
@@ -106,7 +111,7 @@ async function redisSupportsUnauthorizedDocumentedSelfSignedCertificates() {
 }
 
 async function redisSupportsUnauthorizedAzureDocumentedSelfSignedCa() {
-  noCertificates = [az_ca_certificates[0], null, null, null]
+  noCertificates = [_CUSTOM_ZERO_DEPTH_CA[0], null, null, null]
   const client = await clientFactory("redis-unauthorized", noCertificates);
   await client.connect();
   await client.set('foo', 'ram');
@@ -114,28 +119,35 @@ async function redisSupportsUnauthorizedAzureDocumentedSelfSignedCa() {
 }
 
 async function ioredisSupportsDocumentedSelfSignedCertificates() {
-  const client = await clientFactory("ioredis", rsa);
+  const client = await clientFactory("ioredis", _RSA);
   await client.set('foo', 'goo');
   return await client.get('foo');
 }
 
 async function ioredisSupportsAzureDocumentedSelfSignedCa() {
-  const client = await clientFactory("ioredis", az_ca_certificates);
+  const client = await clientFactory("ioredis", _CUSTOM_ZERO_DEPTH_CA);
   await client.set('foo', 'doing');
   return await client.get('foo');
 }
 
 async function ioredisSupportsEcdsa() {
-  const client = await clientFactory("ioredis", ecdsa, format="ascii", password="vkIjyCjWsmepTCkaynqHwqDkqMVuATgvyQCDJBKNvhkwMoNykqkOzyYKCKYRqYtZYFBQjOstRoZlEKEMeiOQwDibhULpylxnuQsVhjNLtbkxeUfsGlwwGRjQaslESnVU");
+  const client = await clientFactory("ioredis", _ECDSA, format="ascii", password="vkIjyCjWsmepTCkaynqHwqDkqMVuATgvyQCDJBKNvhkwMoNykqkOzyYKCKYRqYtZYFBQjOstRoZlEKEMeiOQwDibhULpylxnuQsVhjNLtbkxeUfsGlwwGRjQaslESnVU");
   await client.set('doog', 'ioEcdsa');
   return await client.get('doog');
 }
 
 async function redisSupportsEcdsa() {
-  const client = await clientFactory("redis", ecdsa, format="ascii", password="vkIjyCjWsmepTCkaynqHwqDkqMVuATgvyQCDJBKNvhkwMoNykqkOzyYKCKYRqYtZYFBQjOstRoZlEKEMeiOQwDibhULpylxnuQsVhjNLtbkxeUfsGlwwGRjQaslESnVU");
+  const client = await clientFactory("redis", _ECDSA, format="ascii", password="vkIjyCjWsmepTCkaynqHwqDkqMVuATgvyQCDJBKNvhkwMoNykqkOzyYKCKYRqYtZYFBQjOstRoZlEKEMeiOQwDibhULpylxnuQsVhjNLtbkxeUfsGlwwGRjQaslESnVU");
   await client.connect();
   await client.set('zap', 'ecdsa');
   return await client.get('zap');
+}
+
+async function redisSupportsEcdsaSan() {
+  const client = await clientFactory("redis", _ECDSA_SAN, format="ascii", password="vkIjyCjWsmepTCkaynqHwqDkqMVuATgvyQCDJBKNvhkwMoNykqkOzyYKCKYRqYtZYFBQjOstRoZlEKEMeiOQwDibhULpylxnuQsVhjNLtbkxeUfsGlwwGRjQaslESnVU");
+  await client.connect();
+  await client.set('roo', 'sunny');
+  return await client.get('roo');
 }
 
 exports.redisSupportsDocumentedSelfSignedCertificates = redisSupportsDocumentedSelfSignedCertificates
@@ -146,3 +158,4 @@ exports.ioredisSupportsDocumentedSelfSignedCertificates = ioredisSupportsDocumen
 exports.ioredisSupportsAzureDocumentedSelfSignedCa = ioredisSupportsAzureDocumentedSelfSignedCa
 exports.ioredisSupportsEcdsa = ioredisSupportsEcdsa
 exports.redisSupportsEcdsa = redisSupportsEcdsa
+exports.redisSupportsEcdsaSan = redisSupportsEcdsaSan
