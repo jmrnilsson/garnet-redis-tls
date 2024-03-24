@@ -1,4 +1,4 @@
-# A dive into client support of Redis with self-signed certificates
+# A dive into Garnet and Redis support of TLS with self-signed certificates
 
 ## Description
 
