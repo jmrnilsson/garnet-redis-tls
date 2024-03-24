@@ -1,5 +1,19 @@
-version: '3.8'
+version: '3.9'
 services:
+  garnet-ubi9:
+    build: ./garnet-ubi9
+    restart: always
+    ports:
+      - '7099:3278'
+    container_name: garnet
+    profiles:
+      - donotstart
+  garnet-dotnet8:
+    build: ./garnet-dotnet8
+    restart: always
+    ports:
+      - '7199:3278'
+    container_name: garnet-dotnet8
   redis-az-tls:
     build: ./redis-az-ca
     restart: always
