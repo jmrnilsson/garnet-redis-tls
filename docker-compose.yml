@@ -5,9 +5,9 @@ services:
     restart: always
     ports:
       - '7099:3278'
-    container_name: garnet
-    profiles:
-      - donotstart
+    container_name: garnet-ubi9
+    # profiles:
+    #   - donotstart
   garnet-dotnet8:
     build: ./garnet-dotnet8
     restart: always

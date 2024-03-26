@@ -34,6 +34,8 @@ Redis can be put as a sidecar with UNIX sockets. Another option, memcached, only
 
 Open WSL terminal and run:
 
+*Note:* Current dynamic binding to certificate generation is broken!
+
 ```zsh
 sh ./setup.sh
 ```
