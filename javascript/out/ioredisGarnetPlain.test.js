@@ -23,8 +23,8 @@ describe.each(clients)("ioredis %p", async (_, clientFn) => {
     (0, globals_1.test)("Set and get %p", async () => {
         const set = await client.set('sdASD', 'IOG');
         const get = await client.get('sdASD');
-        node_assert_1.default.equal(set, 'OK');
-        node_assert_1.default.equal(get, 'IOG');
+        (0, globals_1.expect)(set).toBe('OK');
+        (0, globals_1.expect)(get).toBe('IOG');
     });
     (0, globals_1.test)("Garnet: getset", async () => {
         const set = await client.set('someKey', 'first_value');
