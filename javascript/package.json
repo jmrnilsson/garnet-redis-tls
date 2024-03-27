@@ -1,26 +1,21 @@
 {
-  "name": "redis-tls",
+  "name": "garnet-redis-tls",
   "version": "0.0.1",
-  "description": "",
-  "main": "main.js",
+  "description": "TLS tests of Garnet and Redis",
+  "main": "debug.js",
   "scripts": {
-    "test": "jasmine"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jmrnilsson/garnet-redis-tls.git"
+    "pretest": "tsc",
+    "test": "node --test",
+    "test-only": "node --test-only"
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jmrnilsson/garnet-redis-tls/issues"
-  },
-  "homepage": "https://github.com/jmrnilsson/garnet-redis-tls#readme",
   "dependencies": {
     "ioredis": "^5.3.1",
     "redis": "^4.6.5"
   },
   "devDependencies": {
+    "@types/node": "^20.11.30",
     "typescript": "^5.4.3"
   }
 }
