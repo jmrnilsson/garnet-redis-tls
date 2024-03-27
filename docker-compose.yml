@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   garnet-ubi9:
-    build: ./garnet-ubi9
+    build: ./docker/garnet-ubi9
     restart: always
     ports:
       - '3278:3278'
@@ -9,7 +9,7 @@ services:
     # profiles:
     #   - donotstart
   redis-az-tls:
-    build: ./redis-az-ca
+    build: ./docker/redis-az-ca
     restart: always
     ports:
       - '7000:6379'
@@ -21,7 +21,7 @@ services:
       - '7088:6379'
     container_name: redis
   redis-rsa:
-    build: ./redis
+    build: ./docker/redis
     restart: always
     ports:
       - '7020:6379'
