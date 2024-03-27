@@ -150,6 +150,12 @@ async function redisSupportsEcdsaSan() {
   return await client.get('roo');
 }
 
+async function ioredisSupportsGarnet() {
+  const client = await clientFactory("ioredis", _ECDSA, format="ascii");
+  await client.set('sdASD', 'ioGarny');
+  return await client.get('sdASD');
+}
+
 exports.redisSupportsDocumentedSelfSignedCertificates = redisSupportsDocumentedSelfSignedCertificates
 exports.redisSupportsAzureDocumentedSelfSignedCa = redisSupportsAzureDocumentedSelfSignedCa
 exports.redisSupportsUnauthorizedDocumentedSelfSignedCertificates = redisSupportsUnauthorizedDocumentedSelfSignedCertificates
@@ -159,3 +165,4 @@ exports.ioredisSupportsAzureDocumentedSelfSignedCa = ioredisSupportsAzureDocumen
 exports.ioredisSupportsEcdsa = ioredisSupportsEcdsa
 exports.redisSupportsEcdsa = redisSupportsEcdsa
 exports.redisSupportsEcdsaSan = redisSupportsEcdsaSan
+exports.ioredisSupportsGarnet = ioredisSupportsGarnet

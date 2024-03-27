@@ -1,11 +1,14 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /source
 
-RUN git clone https://github.com/microsoft/garnet.git .
+WORKDIR /source
+RUN wget -O ./source.tar.gz https://github.com/microsoft/garnet/archive/refs/tags/v1.0.1.tar.gz
+RUN tar -xvzf ./source.tar.gz
+
+WORKDIR /source/garnet-1.0.1
 RUN dotnet restore
 RUN dotnet build -c Release
 
-WORKDIR /source/main/GarnetServer
+WORKDIR /source/garnet-1.0.1/main/GarnetServer
 RUN dotnet publish -c Release -o /app --self-contained true -f net8.0
 
 FROM registry.access.redhat.com/ubi9/ubi-minimal
@@ -13,5 +16,4 @@ FROM registry.access.redhat.com/ubi9/ubi-minimal
 WORKDIR /app
 COPY --from=build /app .
 RUN microdnf install -y libicu
-
 ENTRYPOINT ["/app/GarnetServer", "-i", "128m"]

@@ -4,24 +4,23 @@ services:
     build: ./garnet-ubi9
     restart: always
     ports:
-      - '7099:3278'
+      - '3278:3278'
     container_name: garnet-ubi9
     # profiles:
     #   - donotstart
-  garnet-dotnet8:
-    build: ./garnet-dotnet8
-    restart: always
-    ports:
-      - '7199:3278'
-    container_name: garnet-dotnet8
   redis-az-tls:
     build: ./redis-az-ca
     restart: always
     ports:
       - '7000:6379'
     container_name: redis-az-ca
+  redis:
+    image: redis:7.0.15-bookworm
+    restart: 'no'
+    ports:
+      - '7088:6379'
+    container_name: redis
   redis-rsa:
-    # image: redis:7.0.9-bullseye
     build: ./redis
     restart: always
     ports:
@@ -67,8 +66,6 @@ services:
       source: ./tls-ecdsa-san/redis.conf
       target: /usr/local/etc/redis/redis.conf
     container_name: redis-ecdsa-san
-
-
     # volumes:
     #   - ./redis/tests/tls/redis.crt /usr/local/etc/redis/redis.crt
     #   - ./redis/tests/tls/redis.key /usr/local/etc/redis/redis.key
