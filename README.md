@@ -6,6 +6,15 @@ A probe into self-signed certificate support for a few Redis clients: `ioredis`,
 This is useful when Redis is used behind a firewall e.g. Kubernetes but without a service mesh, like
 [Istio](https://istio.io/latest/about/service-mesh/) or [Linkerd](https://linkerd.io/), for mTLS.
 
+## Temporary run instructions 
+
+```bash
+docker-compose up -d redis garnet-ubi9
+cd .\javascript\
+npx jest
+```
+
+
 ## Background 
 
 I don't know exactly what's going on here. But TLS support for redis doesn't appear to be a a priority. There is [this

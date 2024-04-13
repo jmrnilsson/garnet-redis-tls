@@ -1,4 +1,6 @@
 
-let dbNumber: number = 0;
+let sequence: number = 0;
 
-export const dbIncrement = () => 
+export default function incr() {
+  return ++sequence;
+};

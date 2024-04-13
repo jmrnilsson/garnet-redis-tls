@@ -3,7 +3,7 @@ import { expect, test} from '@jest/globals';
 import assert from 'node:assert';
 import Redis, { RedisOptions } from 'ioredis';
 import uuid4 from 'uuid4';
-import { dbNumber } from '../dbNumber';
+import incr from '../dbNumber';
 
 type Db = 'Redis' | 'Garnet';
 
@@ -15,7 +15,8 @@ const IOREDIS_OPTIONS: RedisOptions = {
 const clients: Record<Db, number> = { Redis: 7088, Garnet: 3278 };
 
 describe.each(Object.entries(clients))("ioredis %p", (db, port) => {
-  const client = new Redis({...IOREDIS_OPTIONS, port: Number(port), db: dbNumber++});
+  const client = new Redis({...IOREDIS_OPTIONS, port: Number(port)});
+  // const client = new Redis({...IOREDIS_OPTIONS, port: Number(port), db: incr()});
   
   afterAll(() => {
     client.disconnect();

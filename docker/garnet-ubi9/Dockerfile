@@ -1,10 +1,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-
+ENV VERSION "1.0.4"
 WORKDIR /source
-RUN wget -O ./source.tar.gz https://github.com/microsoft/garnet/archive/refs/tags/v1.0.1.tar.gz
+RUN wget -O ./source.tar.gz https://github.com/microsoft/garnet/archive/refs/tags/v$VERSION.tar.gz
 RUN tar -xvzf ./source.tar.gz
 
-WORKDIR /source/garnet-1.0.1
+WORKDIR /source/garnet-$VERSION
 RUN dotnet restore
 RUN dotnet build -c Release
 
