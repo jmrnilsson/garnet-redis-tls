@@ -1,5 +1,5 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ENV VERSION "1.0.5"
+ENV VERSION "1.0.12"
 WORKDIR /source
 RUN wget -O ./source.tar.gz https://github.com/microsoft/garnet/archive/refs/tags/v$VERSION.tar.gz
 RUN tar -xvzf ./source.tar.gz
